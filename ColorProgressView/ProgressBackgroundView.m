@@ -7,7 +7,7 @@
 #import "ProgressBackgroundView.h"
 
 @implementation ProgressBackgroundView {
-    CAShapeLayer *_shapeLayer;
+    CAShapeLayer *_maskLayer;
 }
 
 - (instancetype) initWithFrame:(CGRect)frame {
@@ -20,14 +20,14 @@
 
 - (void) initShapeLayer {
     //create shape layer
-    _shapeLayer = [CAShapeLayer layer];
-    _shapeLayer.strokeColor = [UIColor redColor].CGColor;
-    _shapeLayer.fillColor = [UIColor clearColor].CGColor;
-    _shapeLayer.lineWidth = 5;
-    _shapeLayer.lineJoin = kCALineJoinRound;
-    _shapeLayer.lineCap = kCALineCapRound;
+    _maskLayer = [CAShapeLayer layer];
+    _maskLayer.strokeColor = [UIColor redColor].CGColor;
+    _maskLayer.fillColor = [UIColor clearColor].CGColor;
+    _maskLayer.lineWidth = 5;
+    _maskLayer.lineJoin = kCALineJoinRound;
+    _maskLayer.lineCap = kCALineCapRound;
 
-    [self.layer setMask:_shapeLayer];
+    [self.layer setMask:_maskLayer];
 }
 
 - (void) drawEmptyLine {
@@ -40,11 +40,11 @@
     [path moveToPoint:CGPointMake(radius, radius)];
     [path addLineToPoint:CGPointMake(xEnd, radius)];
 
-    _shapeLayer.path = path.CGPath;
-    _shapeLayer.lineWidth = radius * 2;
+    _maskLayer.path = path.CGPath;
+    _maskLayer.lineWidth = radius * 2;
 }
 
-- (void) ddd {
+- (void) grayLineRender {
     CGFloat components[12] = {
         0.0, 0.0, 0.0, 0.1,     //start color(r,g,b,alpha)
         1.0, 1.0, 1.0, 0.5,
@@ -60,13 +60,9 @@
     CGContextDrawLinearGradient(graCtx, gradient, startPoint, endPoint, 0);
 }
 
-//- (void)layoutSubviews {
-//    [super layoutSubviews];
-//}
-
 - (void)drawRect:(CGRect)rect {
     [self drawEmptyLine];
-    [self ddd];
+    [self grayLineRender];
 }
 
 @end
