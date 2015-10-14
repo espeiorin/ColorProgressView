@@ -65,9 +65,9 @@
 
 - (void) colorsShift {
     int count = _cachedColors.count;
-    if (count>1) {
-        int index = MIN((int)(_progress * count), count-2);
-        [_colorLayer setColors: @[ _cachedColors[index], _cachedColors[index+1] ] ];
+    if (count) {
+        int index = MIN((int)(_progress * count), count-1);
+        [_colorLayer setColors: @[ _cachedColors[index], _cachedColors[index] ] ];
     }
 }
 
