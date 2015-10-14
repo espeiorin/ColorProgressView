@@ -33,6 +33,14 @@
     [self setNeedsDisplay];
 }
 
+- (void) setSingleColor:(BOOL)singleColor {
+    _frontView.singleColor = singleColor;
+}
+
+- (BOOL) singleColor {
+    return _frontView.singleColor;
+}
+
 - (void) drawRect:(CGRect)rect {
     _backgroundView.frame = rect;
     _frontView.frame = rect;

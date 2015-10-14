@@ -7,5 +7,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ProgressFrontView : UIView
-@property (nonatomic, assign) CGFloat progress;
+@property(nonatomic, assign) CGFloat progress;
+@property(nonatomic, assign) BOOL singleColor;
 @end

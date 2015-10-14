@@ -8,4 +8,5 @@
 
 @interface ColorProgressView : UIView
 @property (nonatomic, assign) CGFloat progress;
+@property(nonatomic, assign) BOOL singleColor;
 @end

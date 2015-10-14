@@ -13,6 +13,7 @@
 @implementation ProgressFrontView {
     CAGradientLayer *_colorLayer;
     CAShapeLayer *_maskLayer;
+    NSArray *_cachedColors;
 }
 
 - (instancetype) initWithFrame:(CGRect)frame {
@@ -24,6 +25,8 @@
 
         [_colorLayer setMask:_maskLayer];
         [self.layer addSublayer:_colorLayer];
+
+        _cachedColors = _colorLayer.colors.copy;
     }
     return self;
 }
@@ -60,6 +63,14 @@
     return layer;
 }
 
+- (void) colorsShift {
+    int count = _cachedColors.count;
+    if (count>1) {
+        int index = MIN((int)(_progress * count), count-2);
+        [_colorLayer setColors: @[ _cachedColors[index], _cachedColors[index+1] ] ];
+    }
+}
+
 - (void) doDrawing {
     CGRect rc = self.bounds;
     CGFloat radius = rc.size.height / 2;
@@ -78,6 +89,10 @@
     _maskLayer.path = path.CGPath;
 
     _maskLayer.strokeEnd = (_progress>0.005) ? _progress : 0.005;
+
+    if (_singleColor) {
+        [self colorsShift];
+    }
 }
 
 // 设置阴影 .
@@ -95,6 +110,11 @@
 
 - (void) setProgress:(CGFloat)progress {
     _progress = MIN(1.0, fabs(progress));
+    [self setNeedsDisplay];
+}
+
+- (void) setSingleColor:(BOOL)singleColor {
+    _singleColor = singleColor;
     [self setNeedsDisplay];
 }
 
